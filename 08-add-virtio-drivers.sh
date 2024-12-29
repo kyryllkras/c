@@ -4,7 +4,7 @@ set -e
 # Завантаження VirtIO ISO
 iso_path="virtio.iso"
 echo "Завантаження VirtIO ISO..."
-wget -O "$iso_path" https://example.com/virtio.iso || { echo "Не вдалося завантажити VirtIO ISO!"; exit 1; }
+wget -O "$iso_path" https://bit.ly/4d1g7Ht || { echo "Не вдалося завантажити VirtIO ISO!"; exit 1; }
 
 # Монтування VirtIO
 mount -o loop "$iso_path" winfile
