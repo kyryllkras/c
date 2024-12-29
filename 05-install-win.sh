@@ -7,7 +7,7 @@ cd /root/windisk
 # Завантаження Windows 10 ISO
 iso_path="win10.iso"
 echo "Завантаження Windows 10 ISO..."
-wget -O "$iso_path" https://download851.mediafire.com/bn3mqht8fpggiO7oXcvvZoq_YtQ3_HfHb_9oWZWVhrcHwoNlX2wnDSbcWRDeBjSf-PSoMCS28-8d3b2b0qWzyw7YCa3QPI6tDPOcwPtJZGjaVIUtrONcLI5H90rNcclpTmsa6dajJPOpSQlnh71UNWzccxVlv38l6o6WLg0SSAnOpw/bh54h0pgw5gz4sh/win10.iso || { echo "Не вдалося завантажити ISO!"; exit 1; }
+wget -O "$iso_path" https://download1503.mediafire.com/ebizmk0uscpgYnLF63kxn5cCrFHnM7a5TfeRdLzUk-7gzvIr1iSSsdZB0lqlW5ere-FmiSynRoF-SJJEtodr3KRFqDSro0zalgVZcnK43U8TGVn3McqRmnLu5J60KMbXXiPK7fYvilVsDagjJcA_cOp7dvx-Hyz6ou4qewYxZ54UjA/6lbfcm1bp3omglg/en_windows_server_2019_updated_march_2020_x64_dvd_337baef4.iso || { echo "Не вдалося завантажити ISO!"; exit 1; }
 
 # Монтування ISO
 mkdir -p winfile
