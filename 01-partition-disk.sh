@@ -39,7 +39,7 @@ echo "Розмір кожного розділу: ${part_size_mb} MB"
 # Створення розділів
 echo "Створення NTFS-розділів..."
 parted "$disk" --script mkpart primary ntfs 1MiB "$part_size_mb"MiB
-parted "$disk" --script mkpart primary ntfs "$part_size_mb"MiB "$((2 * part_size_mb))"MiB
+parted "$disk" --script mkpart primary ntfs "$part_size_mb"MiB "$((4 * part_size_mb))"MiB
 
 # Оновлення інформації ядра
 echo "Оновлення інформації ядра..."
@@ -50,3 +50,10 @@ echo "Таблиця розділів після створення:"
 parted "$disk" --script print
 
 echo "Розділи успішно створено!"
+
+# Форматування розділів у NTFS
+echo "Форматування розділів /dev/sda1 і /dev/sda2 у NTFS..."
+mkfs.ntfs -f /dev/sda1
+mkfs.ntfs -f /dev/sda2
+
+echo "Розділи відформатовано."
