@@ -7,6 +7,7 @@ echo "Завантаження VirtIO ISO..."
 wget -O "$iso_path" https://bit.ly/4d1g7Ht || { echo "Не вдалося завантажити VirtIO ISO!"; exit 1; }
 
 # Монтування VirtIO
+mkdir -p winfile
 mount -o loop "$iso_path" winfile
 
 # Копіювання драйверів
