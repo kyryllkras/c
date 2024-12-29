@@ -11,9 +11,17 @@ if ! lsblk | grep -q "${disk##*/}"; then
     exit 1
 fi
 
-# Ініціалізація диска (якщо необхідно)
+# Створення таблиці GPT
 echo "Створення GPT-таблиці на $disk..."
 parted "$disk" --script mklabel gpt || { echo "Не вдалося створити мітку розділу."; exit 1; }
+
+# Перевірка, чи створено GPT
+table_type=$(parted "$disk" --script print | awk '/Partition Table:/ {print $3}')
+if [ "$table_type" != "gpt" ]; then
+    echo "Помилка: таблиця GPT не створена!"
+    exit 1
+fi
+echo "Таблиця GPT успішно створена."
 
 # Визначення розміру диска
 disk_size_bytes=$(blockdev --getsize64 "$disk")
@@ -28,13 +36,17 @@ part_size_mb=$((disk_size_mb / 4))
 echo "Розмір диска: ${disk_size_mb} MB"
 echo "Розмір кожного розділу: ${part_size_mb} MB"
 
-# Створення NTFS-розділів
+# Створення розділів
 echo "Створення NTFS-розділів..."
 parted "$disk" --script mkpart primary ntfs 1MiB "$part_size_mb"MiB
 parted "$disk" --script mkpart primary ntfs "$part_size_mb"MiB "$((2 * part_size_mb))"MiB
 
-# Інформування ядра про зміни
+# Оновлення інформації ядра
 echo "Оновлення інформації ядра..."
 partprobe "$disk"
+
+# Виведення інформації про диск
+echo "Таблиця розділів після створення:"
+parted "$disk" --script print
 
 echo "Розділи успішно створено!"
