@@ -1,23 +1,25 @@
 #!/bin/bash
+set -e
 
 # Завантаження VirtIO ISO
-wget -O virtio.iso https://bit.ly/4d1g7Ht
+iso_path="virtio.iso"
+echo "Завантаження VirtIO ISO..."
+wget -O "$iso_path" https://example.com/virtio.iso || { echo "Не вдалося завантажити VirtIO ISO!"; exit 1; }
 
 # Монтування VirtIO
-mount -o loop virtio.iso winfile
-
-# Створення теки для драйверів на sda1
-mkdir -p /mnt/sources/virtio
+mount -o loop "$iso_path" winfile
 
 # Копіювання драйверів
+mkdir -p /mnt/sources/virtio
+echo "Копіювання VirtIO драйверів..."
 rsync -avz --progress winfile/* /mnt/sources/virtio
 
-cd /mnt/sources
-
 # Оновлення boot.wim
-touch cmd.txt
-echo 'add virtio /virtio_drivers' >> cmd.txt
-wimlib-imagex update boot.wim 2 < cmd.txt
+cd /mnt/sources
+cmd_file="cmd.txt"
+echo "add virtio /virtio_drivers" > "$cmd_file"
+wimlib-imagex update boot.wim 2 < "$cmd_file"
 
-# Відмонтовуємо VirtIO
+# Відмонтовування VirtIO
 umount winfile
+echo "VirtIO драйвери успішно додано."

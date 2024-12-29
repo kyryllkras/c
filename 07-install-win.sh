@@ -1,19 +1,22 @@
 #!/bin/bash
+set -e
 
-# Перехід у /root/windisk (де змонтовано sda2)
+# Перехід у /root/windisk
 cd /root/windisk
 
-# Папка для монтування ISO
-mkdir -p winfile
-
 # Завантаження Windows 10 ISO
-wget -O win10.iso --user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" https://download851.mediafire.com/bn3mqht8fpggiO7oXcvvZoq_YtQ3_HfHb_9oWZWVhrcHwoNlX2wnDSbcWRDeBjSf-PSoMCS28-8d3b2b0qWzyw7YCa3QPI6tDPOcwPtJZGjaVIUtrONcLI5H90rNcclpTmsa6dajJPOpSQlnh71UNWzccxVlv38l6o6WLg0SSAnOpw/bh54h0pgw5gz4sh/win10.iso
+iso_path="win10.iso"
+echo "Завантаження Windows 10 ISO..."
+wget -O "$iso_path" https://example.com/win10.iso || { echo "Не вдалося завантажити ISO!"; exit 1; }
 
 # Монтування ISO
-mount -o loop win10.iso winfile
+mkdir -p winfile
+mount -o loop "$iso_path" winfile
 
-# Копіювання файлів Windows 10 на sda1 (/mnt)
+# Копіювання файлів
+echo "Копіювання файлів Windows 10 на /mnt..."
 rsync -avz --progress winfile/* /mnt
 
 # Відмонтовування ISO
 umount winfile
+echo "Файли Windows 10 успішно скопійовано."
